@@ -3,7 +3,7 @@
     <div class="title">
       <h1>我的影片收藏夾</h1>
     </div>
-    <div class="video-container">
+    <div v-if="myVideos" class="video-container">
       <div v-for="(item,index) in totalPage[nowPage]" :key="index" class="single-video">
         <div class="video-pic">
           <div class="del-btn" @click.stop="delItem">×</div>
@@ -19,8 +19,18 @@
         </div>
       </div>  
     </div>
-    <pagination v-model="nowPage"
+    <pagination v-if="totalPage.length > 0" v-model="nowPage"
                 :send-total-page="totalPage"/>
+    <template v-if="myVideos.length === 0">
+      <div>
+        <div class="empty-hint">
+          <h1>
+            <font-awesome-icon :icon="['fas', 'dizzy']" />
+            Oops！您的收藏夾是空的唷！
+          </h1>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 <script>
@@ -29,6 +39,19 @@ export default {
   name:"Collection",
   components: {
     Pagination
+  },
+  data() {
+    return {
+      myVideos:[],
+      nowPage: 0,
+      totalPage:[],
+      perPage:8
+    }
+  },
+  methods: {
+    delItem(){
+      console.log(this)
+    }
   },
   mounted() {
     if(localStorage.myVideoFolder){
@@ -44,19 +67,6 @@ export default {
       this.totalPage = newData
     }
   },
-  data() {
-    return {
-      myVideos:[],
-      nowPage: 0,
-      totalPage:[],
-      perPage:8
-    }
-  },
-  methods: {
-    delItem(){
-      console.log(this)
-    }
-  },
 }
 </script>
 <style lang="scss" scoped>
@@ -65,6 +75,9 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      .empty-hint {
+        font-size: 30px;
+      }
       .title{
         font-size: 42px;
         color: #FF4299;
@@ -114,8 +127,8 @@ export default {
           }
           .video-info{
             .video-title{
-              font-weight: bold;
-              margin-bottom: 5px;
+              font-weight: 400;
+              margin-bottom: 10px;
             }
             .video-info{
               font-size: 14px;

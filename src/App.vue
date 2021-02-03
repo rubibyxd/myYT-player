@@ -40,10 +40,11 @@
       width: 100px;
       padding: 10px 0;
       text-align: center;
+      font-weight: 400;
     }
     .router-link-exact-active{
       color: #FF4299;
-      font-weight: bold;
+      // font-weight: bold;
       border-bottom: 5px solid #FF4299;
       text-shadow: 0 0 10px #ff5ea96b;
     }

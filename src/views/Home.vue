@@ -186,7 +186,7 @@ export default {
         }
         .video-info{
           .video-title{
-            font-weight: bold;
+            font-weight: 500;
             margin-bottom: 5px;
           }
           .video-info{

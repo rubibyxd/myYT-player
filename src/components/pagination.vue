@@ -160,7 +160,7 @@ export default {
                     margin-left: 20px;
                 }
                 &:hover {
-                    background-color: #e21a77;
+                    background-color: #e61e57;
                     color: #F0F0F0;
                 }
             }
