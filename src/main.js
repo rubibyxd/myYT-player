@@ -5,10 +5,10 @@ import './assets/reset.css';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCaretLeft, faCaretRight, faPlayCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faCaretLeft, faCaretRight, faPlayCircle, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faPlayCircle,faSearch,faCaretLeft,faCaretRight)
+library.add(faPlayCircle,faSearch,faCaretLeft,faCaretRight,faTrashAlt)
 
 Vue.use(VueAxios, axios)
 
