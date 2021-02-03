@@ -10,214 +10,23 @@
       </div>
     </div>
     <div class="video-container">
-      <div class="single-video">
+      <div v-for="(item,index) in totalPage[nowPage]" :key="index" class="single-video">
         <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
+          <div class="mask">
+            <div class="play-btn">立即播放</div>
+            <div class="add-to-fav-btn">加入收藏夾</div>
+          </div>
+          <img :src="`${ item.picUrl }`" alt="">
+          <div class="video-long">{{ item.videoLong }}</div>
         </div>
         <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
+          <div class="video-title">{{ item.title }}</div>
           <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
+            <div class="channel">{{ item.channel }}</div>
+            <div class="watch-times">觀看次數: {{ item.watch }}</div>
           </div>
         </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
-      <div class="single-video">
-        <div class="video-pic">
-          <img src="/images/sample.jpg" alt="">
-          <div class="video-long">4:35</div>
-        </div>
-        <div class="video-info">
-          <div class="video-title">怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao</div>
-          <div class="video-info">
-            <div class="channel">老高與小莫</div>
-            <div class="watch-times">觀看次數: 1000000</div>
-          </div>
-        </div>
-      </div>
+      </div>  
     </div>
     <pagination v-model="nowPage"
       :send-total-page="totalPage"/>
@@ -237,6 +46,29 @@ export default {
       totalPage:[],
       perPage:12,
     }
+  },
+  created() {
+    this.axios
+      .get('/json/demo.json')
+      .then(res => {
+        let allBlocks = JSON.parse(JSON.stringify(res.data))
+        const newData = []
+        allBlocks.forEach((item, i) => {
+          const page = parseInt(i / this.perPage)
+          if (i % this.perPage === 0) {
+            newData.push([])
+          }
+          newData[page].push(item)
+        })
+        this.blocks = allBlocks
+        this.totalPage = newData
+      })
+      .catch(function (error) { 
+        console.log(error);
+      });
+  },
+  methods: {
+
   },
 }
 </script>
@@ -293,11 +125,13 @@ export default {
       width: 100%;
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
+      justify-content: center;
+      align-items: center;
       margin-bottom: 40px;
       .single-video{
         width: 290px;
-        margin-bottom: 20px;
+        margin: 0 20px;
+        margin-bottom: 40px;
         .video-pic{
           margin-bottom: 10px;
           position: relative;
@@ -310,6 +144,44 @@ export default {
             position: absolute;
             bottom: 10px;
             right: 10px;
+            user-select: none;
+          }
+        }
+        .mask{
+          display: none;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.6);
+          position: absolute;
+          .play-btn{
+            width: 150px;
+            padding: 10px 0px;
+            border: 1px solid #FF4299;
+            color: #FF4299;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            user-select: none;
+            cursor: pointer;
+            &:hover{
+              background-color: #FF4299;
+              color: #F0F0F0;
+            }
+          }
+          .add-to-fav-btn{
+            width: 150px;
+            padding: 10px 0px;
+            border: 1px solid #F0F0F0;
+            border-radius: 5px;
+            text-align: center;
+            user-select: none;
+            font-weight: bold;
+            cursor: pointer;
+            &:hover{
+              background-color: #F0F0F0;
+              color: #141010;
+            }
           }
         }
         .video-info{
@@ -324,6 +196,14 @@ export default {
             .channel{
               margin-right: 15px;
             }
+          }
+        }
+        &:hover {
+          .mask{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
           }
         }
       }

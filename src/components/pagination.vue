@@ -65,6 +65,12 @@ export default {
         if(this.nowPage - 5 >= 0)
             this.nowPage = this.nowPage - 5
         },
+                firstPage(){
+            this.nowPage = 0
+        },
+        lastPage(){
+            this.nowPage = this.totalPage.length - 1
+        },
         nextFive(){
         if(this.nowPage + 5 < this.totalPage.length)
             this.nowPage = this.nowPage + 5
@@ -144,6 +150,7 @@ export default {
                 align-items: center;
                 justify-content: space-between;
                 transition: 0.3s;
+                user-select: none;
                 .handle-left {
                     font-size: 24px;
                     margin-right: 20px;
@@ -163,8 +170,11 @@ export default {
                 text-align: center;
                 .page-btn{
                     width: 50px;
-                    margin: 0 20px;
+                    height: 100%;
+                    margin: 0 10px;
                     color: #FF4299;
+                    border-radius: 5px;
+                    line-height: 2.5;
                     cursor: pointer;
                 }
                 .btn--active{
