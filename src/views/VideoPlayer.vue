@@ -1,8 +1,5 @@
 <template>
   <div class="video-player">
-    <div class="title">
-      <h1>影片播放器</h1>
-    </div>
     <div class="player-container">
       <main class="main-video">
         <div class="player-screen">
@@ -13,29 +10,28 @@
           <div id="video-player" data-plyr-provider="youtube"></div>
         </div>
         <div class="video-title">
-          怕海的人不要看，真實的美人魚 | 老高與小茉 Mr & Mrs Gao
+          {{ nowVideo.title }}
         </div>
         <div class="simple-info">
-          <span class="watch-times">觀看次數: 9999999</span>
-          <span class="upload-time">上傳時間: 9999999</span>
+          <span class="watch-times">觀看次數: {{ nowVideo.views }}</span>
+          <span class="upload-time">上傳時間: {{ nowVideo.upload }}</span>
         </div>
         <div class="btn-container">
-          <div class="next-video">下一部影片</div>
-          <div class="goto-youtube">以 youtube 開啟</div>
+          <!-- <div class="next-video">下一部影片</div> -->
+          <div class="goto-youtube" @click="openYTpage(nowVideo.ytUrl)">以 youtube 開啟</div>
         </div>
       </main>
       <aside class="video-list">
         <div class="list-title">播放清單</div>
-        <div class="single-video">
+        <div v-for="(item,index) in videoList" :key="index" class="single-video" @click="changeVideo(item)">
           <div class="video-pic">
-            <img src="/images/sample.jpg" alt="">
+            <img :src="`${item.snippet.thumbnails.medium.url}`" alt="pic">
           </div>
           <div class="video-info">
-            <div class="vdo-title">[ 純享版 ] 林憶蓮《水星記》《夢想的聲音2》EP.4 20171124 /浙江衛視官方HD/</div>
-            <div class="channel-name">我是頻道名稱</div>
+            <div class="vdo-title">{{ item.snippet.title }}</div>
+            <div class="channel-name">{{ item.snippet.channelTitle }}</div>
           </div>
         </div>
-        <div class="list-scroll">▼</div>
       </aside>
     </div>
   </div>
@@ -46,21 +42,34 @@ export default {
   name:"VideoPlayer",
   data() {
     return {
-      nowVideo:'bTqVqk7FSmY',
+      nowVideo:{
+        id:'',
+        title:'',
+        views:'',
+        upload:'',
+        ytUrl:''
+      },
+      videoList:[],
       player: null,
       isPlaying:false,
     }
   },
   methods: {
-    changeVideo(videoId){
-      if(videoId) {
-        this.nowVideo = videoId
+    changeVideo(item){
+      if(item) {
+        this.nowVideo = {
+          id: item.id.videoId,
+          title:item.snippet.title,
+          views:item.viewCount,
+          upload:this.dateFormat(item.snippet.publishTime),
+          ytUrl:'https://www.youtube.com/watch?v=' + item.id.videoId
+        }
       }
     },
     updateVideo() {
         this.player.destroy()
         const player = document.querySelector('#video-player')
-        player.setAttribute('data-plyr-embed-id', this.nowVideo)
+        player.setAttribute('data-plyr-embed-id', this.nowVideo.id)
         this.player = new Plyr('#video-player')
     },
     showAdBlock(data){
@@ -81,11 +90,38 @@ export default {
     onPause() {
       this.isPlaying = false
     },
+    initVideoData(){
+      let getData = JSON.parse(localStorage.getItem('myCollectionFolder'))
+      this.videoList = getData
+      this.nowVideo = {
+          id:getData[0].id.videoId,
+          title:getData[0].snippet.title,
+          views:getData[0].viewCount,
+          upload:this.dateFormat(getData[0].snippet.publishTime),
+          ytUrl:'https://www.youtube.com/watch?v=' + getData[0].id.videoId
+      }
+    },
+    getVideo(){
+      const player = document.querySelector('#video-player')
+      player.setAttribute('data-plyr-embed-id', this.nowVideo.id)
+      this.player = new Plyr('#video-player')
+    },
+    openYTpage(url) {
+      window.open(url)
+    },
+    dateFormat(dateString) {
+      let date = new Date(dateString)
+      date = new Date(date)
+      let year = date.getFullYear()
+      let month = date.getMonth()
+      let day = date.getDate()
+      return `${year}年${month}月${day}日`
+    },
   },
   mounted() {
-      const player = document.querySelector('#video-player')
-      player.setAttribute('data-plyr-embed-id', this.nowVideo)
-      this.player = new Plyr('#video-player')
+      this.initVideoData()
+      if(this.nowVideo.id)
+         this.getVideo()
   },
   watch: {
     nowVideo(){
@@ -106,15 +142,6 @@ export default {
 <style lang="scss" scoped>
   .video-player{
       padding: 50px 70px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .title{
-        font-size: 42px;
-        color: #FF4299;
-        font-weight: bold;
-        margin-bottom: 30px;
-      }
       .player-container{
         width: 100%;
         display: flex;
@@ -153,26 +180,25 @@ export default {
         .video-list{
           width: 30%;
           max-height: 600px;
-          overflow: hidden;
-          position: relative;
-          .list-title,.list-scroll{
+          overflow: auto;
+          &::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            background-color: #F5F5F5;
+          }
+          &::-webkit-scrollbar {
+            width: 10px;
+            background-color: #F5F5F5;
+          }
+          &::-webkit-scrollbar-thumb {
+            background-color: #FF4299;
+          }
+          .list-title{
             width: calc(100% - 20px);
             text-align: center;
             background-color: #242121;
             font-size: 20px;
             font-weight: 500;
             padding: 10px;
-          }
-          .list-scroll{
-            position: absolute;
-            bottom: 0;
-            user-select: none;
-            cursor: pointer;
-            opacity: 0.5;
-            transition: 0.3s opacity;
-            &:hover{
-              opacity: 1;
-            }
           }
           .single-video{
             margin: 20px 0;

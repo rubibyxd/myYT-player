@@ -3,25 +3,28 @@
     <div class="title">
       <h1>我的影片收藏夾</h1>
     </div>
-    <div v-if="myVideos" class="video-container">
-      <div v-for="(item,index) in totalPage[nowPage]" :key="index" class="single-video">
+    <div v-if="totalPage" class="video-container">
+      <div v-for="(item,index) in totalPage[nowPage]" :key="index" class="single-video">        
         <div class="video-pic">
-          <div class="del-btn" @click.stop="delItem">×</div>
-          <img :src="`${item.picUrl}`" alt="pic">
-          <div class="video-long">{{ item.videoLong }}</div>
+          <div class="mask">
+            <div class="play-btn" @click="playThis(item)">立即播放</div>
+          </div>
+          <div class="del-btn" @click.stop="delItem(item)">×</div>
+          <img :src="`${item.snippet.thumbnails.medium.url}`" alt="pic">
+          <div class="video-long">{{ item.time }}</div>
         </div>
         <div class="video-info">
-          <div class="video-title">{{ item.title }}</div>
+          <div class="video-title">{{ item.snippet.title }}</div>
           <div class="video-info">
-            <div class="channel">{{ item.channel }}</div>
-            <div class="watch-times">觀看次數:{{ item.watch }}</div>
+            <div class="channel">{{ item.snippet.channelTitle }}</div>
+            <div class="watch-times">觀看次數:{{ item.viewCount }}</div>
           </div>
         </div>
       </div>  
     </div>
-    <pagination v-if="totalPage.length > 0" v-model="nowPage"
+    <pagination  v-show="totalPage.length > 0" v-model="nowPage"
                 :send-total-page="totalPage"/>
-    <template v-if="myVideos.length === 0">
+    <template v-if="totalPage.length === 0">
       <div>
         <div class="empty-hint">
           <h1>
@@ -42,31 +45,56 @@ export default {
   },
   data() {
     return {
-      myVideos:[],
+      allVideoData:[],
       nowPage: 0,
       totalPage:[],
-      perPage:8
+      perPage:4
     }
   },
   methods: {
-    delItem(){
-      console.log(this)
-    }
-  },
-  mounted() {
-    if(localStorage.myVideoFolder){
-      let data = JSON.parse(localStorage.myVideoFolder)
+    delItem(item){
+      let newData = this.allVideoData.filter(el => el.id.videoId !== item.id.videoId)
+      this.setCollectData(newData)
+      this.getCollectData()
+    },
+    getCollectData(){
+      this.totalPage = []
+      let storageData = JSON.parse(localStorage.getItem('myCollectionFolder'))
+      this.allVideoData = storageData
       const newData = []
-      data.forEach((item, i) => {
-      const page = parseInt(i / this.perPage)
-      if (i % this.perPage === 0) {
-        newData.push([])
-      }
-      newData[page].push(item)
-      })
-      this.totalPage = newData
+      this.allVideoData.forEach((item, i) => {
+        const page = parseInt(i / this.perPage)
+        if (i % this.perPage === 0) {
+            newData.push([])
+        }
+        newData[page].push(item)
+      })  
+      let t = setTimeout(()=>{
+        this.totalPage = JSON.parse(JSON.stringify(newData))
+        clearTimeout(t)
+      },1000)
+      
+    },
+    setCollectData(data) {
+      let newData = JSON.stringify(data)
+      localStorage.setItem('myCollectionFolder',newData)
+    },
+    playThis(item) {
+      console.log(item)
+      // this.$router.push('/videoPlayer')
     }
   },
+  created() {
+    this.getCollectData()
+  },
+  watch:{
+    totalPage(data){
+      console.log('totalPage',data)
+    },
+    allVideoData(data){
+      console.log('allVideoData',data)
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -89,7 +117,6 @@ export default {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        align-items: center;
         margin-bottom: 40px;
         .single-video{
           width: 290px;
@@ -109,39 +136,83 @@ export default {
               right: 10px;
               user-select: none;
             }
+            .mask{
+              display: none;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(0, 0, 0, 0.6);
+              position: absolute;
+              z-index: 95;
+              .play-btn{
+                width: 150px;
+                padding: 10px 0px;
+                border: 1px solid #FF4299;
+                color: #FF4299;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 20px;
+                border-radius: 5px;
+                user-select: none;
+                cursor: pointer;
+                &:hover{
+                  background-color: #FF4299;
+                  color: #F0F0F0;
+              }
+              }
+            }
             .del-btn{
               display: none;
               width: 25px;
               height: 25px;
               color: #F0F0F0;
-              font-size: 24px;
+              font-size: 22px;
+              line-height: 1;
               text-align: center;
-              background-color: #BF1010;
+              border: 2px solid #F0F0F0;
               border-radius: 50%;
               position: absolute;
+              z-index: 99;
               top: 5px;
               right: 5px;
               user-select: none;
               cursor: pointer;
+              &:hover {
+                border: 2px solid transparent;
+                background-color: #BF1010;
+              }
             }
           }
           .video-info{
             .video-title{
+              width: 100%;
               font-weight: 400;
               margin-bottom: 10px;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
             }
             .video-info{
               font-size: 14px;
               color: #BCB8B8;
-              display: flex;
-              .channel{
-                margin-right: 15px;
+              .channel,.watch-times{
+                width: 100%;
+                margin-bottom: 10px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
               }
             }
           }
           &:hover {
-            .del-btn{
+            .del-btn {
               display: block;
+            }
+            .mask {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
             }
           }
         }

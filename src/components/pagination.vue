@@ -52,6 +52,9 @@ export default {
             isDisabledNext:false,
         }
     },
+    mounted() {
+        console.log('mounted')
+    },
     methods: {
         nextPage(){
             if(this.nowPage + 1 < this.totalPage.length)
@@ -120,6 +123,7 @@ export default {
             this.$emit('input', data) // v-model
         },
         sendTotalPage(data) {
+            console.log('props',data)
             if (data && data.length > 0) {
                 this.totalPage = data
                 this.createPageArr()

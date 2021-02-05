@@ -13,9 +13,11 @@
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "moment-timezone": "^0.5.32",
     "plyr": "^3.6.4",
     "vue": "^2.6.11",
     "vue-axios": "^3.2.4",
+    "vue-moment": "^4.1.0",
     "vue-plyr": "^7.0.0",
     "vue-router": "^3.2.0"
   },

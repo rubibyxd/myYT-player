@@ -9,6 +9,11 @@ import { faCaretLeft, faCaretRight, faDizzy, faPlayCircle, faSearch, faTrashAlt 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VuePlyr from 'vue-plyr'
 import 'vue-plyr/dist/vue-plyr.css'
+import moment from 'moment-timezone'
+ 
+Vue.filter('dateFormat', function (daraStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
+  return moment(daraStr).format(pattern)
+})
 
 Vue.use(VuePlyr, {
   plyr: {}

@@ -7,7 +7,6 @@
       </div>
       <div class="link-container">
         <router-link to="/">首頁</router-link>
-        <router-link to="/videoPlayer">播放器</router-link>
         <router-link to="/collection">收藏夾</router-link>
       </div>
     </div>
@@ -44,7 +43,6 @@
     }
     .router-link-exact-active{
       color: #FF4299;
-      // font-weight: bold;
       border-bottom: 5px solid #FF4299;
       text-shadow: 0 0 10px #ff5ea96b;
     }
