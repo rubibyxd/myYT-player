@@ -14,9 +14,13 @@
       </div>
     </div>
     <div v-show="apiLoading" class="loader"></div>
+    <div v-show="pageBlock">
+      <h2>今日搜尋量已達上限</h2>
+    </div>
     <div v-show="!apiLoading" class="video-container">
-      <div v-show="pageBlock">
-        <h2>今日搜尋量已達上限</h2>
+      <div v-show="collectSuccess" class="add-success">
+        <font-awesome-icon :icon="['fas', 'check-circle']" />
+        <h3>已加入收藏</h3>
       </div>
       <div v-show="!pageBlock" v-for="(item,index) in totalPage[nowPage]" :key="index" class="single-video">
         <div class="video-pic">
@@ -63,7 +67,8 @@ export default {
       apiLoading:false,
       // apiKey: 'AIzaSyAKff7kMhRQeHKIYofqBxeA4YvmV7zv8c8'
       apiKey: 'AIzaSyDje5RZ3Bi-mBAASuyoVUwkBjvmQ39HEGw',
-      pageBlock:false
+      pageBlock:false,
+      collectSuccess:false
     }
   },
   created(){
@@ -255,7 +260,12 @@ export default {
       this.$router.push('/videoPlayer')
     },
     addToCollect(item){
-      let storageData = localStorage.getItem('myCollectionFolder')
+      this.collectSuccess = true
+      let t = setTimeout(() => {
+        this.collectSuccess = false
+        clearTimeout(t)
+      }, 1000);
+      let storageData = localStorage.getItem('myCollectionFolder')  
       if(!storageData){
         let dataArr = []
         dataArr.push(item)
@@ -263,8 +273,13 @@ export default {
       }
       if(storageData){
         let dataArr = JSON.parse(storageData)
-        dataArr.unshift(item)
-        localStorage.setItem('myCollectionFolder',JSON.stringify(dataArr))
+        let findItem = dataArr.findIndex( el => el.id.videoId === item.id.videoId )
+        if(findItem !== -1){
+          return
+        }else {
+          dataArr.unshift(item)
+          localStorage.setItem('myCollectionFolder',JSON.stringify(dataArr))
+        }
       }
     }
   },
@@ -276,6 +291,26 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    .add-success{
+      width: 400px;
+      height: 200px;
+      font-size: 30px;
+      font-weight: bold;
+      position: fixed;
+      top: 100px;
+      left: auto;
+      color: #FF4299;
+      background-color: rgba(20, 16, 16, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      border-radius: 5px;
+      user-select: none;
+      h3 {
+        margin-left: 15px;
+      }
+    }
     .loader {
       margin-top: 30px;
       border: 15px solid #242121; 
@@ -345,6 +380,7 @@ export default {
       justify-content: center;
       align-items: center;
       margin-bottom: 40px;
+      // position: relative;
       .single-video{
         width: 290px;
         margin: 0 20px;
