@@ -3,6 +3,7 @@
     <div class="title">
       <h1>我的影片收藏夾</h1>
     </div>
+    <div v-show="loading" class="loader"></div>
     <div v-if="totalPage" class="video-container">
       <div v-for="(item,index) in totalPage[nowPage]" :key="index" class="single-video">        
         <div class="video-pic">
@@ -24,7 +25,7 @@
     </div>
     <pagination  v-show="totalPage.length > 0" v-model="nowPage"
                 :send-total-page="totalPage"/>
-    <template v-if="totalPage.length === 0">
+    <template v-if="totalPage.length === 0 && !loading">
       <div>
         <div class="empty-hint">
           <h1>
@@ -48,7 +49,8 @@ export default {
       allVideoData:[],
       nowPage: 0,
       totalPage:[],
-      perPage:4
+      perPage:4,
+      loading:false
     }
   },
   methods: {
@@ -58,6 +60,7 @@ export default {
       this.getCollectData()
     },
     getCollectData(){
+      this.loading = true
       this.totalPage = []
       let storageData = JSON.parse(localStorage.getItem('myCollectionFolder'))
       this.allVideoData = storageData
@@ -71,6 +74,7 @@ export default {
       })  
       let t = setTimeout(()=>{
         this.totalPage = JSON.parse(JSON.stringify(newData))
+        this.loading = false
         clearTimeout(t)
       },1000)
       
@@ -80,8 +84,23 @@ export default {
       localStorage.setItem('myCollectionFolder',newData)
     },
     playThis(item) {
-      console.log(item)
-      // this.$router.push('/videoPlayer')
+      // console.log(item)
+      // 1. 從localStorage裡找到對應item的index
+      let storageDataArr = JSON.parse(localStorage.getItem('myCollectionFolder'))
+      let itemIndex = storageDataArr.findIndex( el => {
+          return el.id.videoId === item.id.videoId
+      })
+      // 2. 用 arrMove 將 item 的 index 移到第0個後再將 localStorage 的資料重設
+      let newArr = JSON.stringify(this.arrMove(storageDataArr,itemIndex,0))
+      localStorage.setItem('myCollectionFolder',newArr)
+      // 3. 跳轉到撥放器
+      this.$router.push('/videoPlayer')
+    },
+    arrMove(arr, fromIndex, toIndex) {
+      let item = arr[fromIndex];
+      arr.splice(fromIndex, 1);
+      arr.splice(toIndex, 0, item);
+      return arr
     }
   },
   created() {
@@ -103,6 +122,19 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      .loader {
+        margin-top: 30px;
+        border: 15px solid #242121; 
+        border-top: 15px solid #FF4299; 
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        animation: spin 2s linear infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
       .empty-hint {
         font-size: 30px;
       }

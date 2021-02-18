@@ -15,7 +15,10 @@
     </div>
     <div v-show="apiLoading" class="loader"></div>
     <div v-show="!apiLoading" class="video-container">
-      <div v-for="(item,index) in totalPage[nowPage]" :key="index" class="single-video">
+      <div v-show="pageBlock">
+        <h2>今日搜尋量已達上限</h2>
+      </div>
+      <div v-show="!pageBlock" v-for="(item,index) in totalPage[nowPage]" :key="index" class="single-video">
         <div class="video-pic">
           <div class="mask">
             <div class="play-btn" @click="playNow(item)">立即播放</div>
@@ -59,7 +62,8 @@ export default {
       searchString: '',
       apiLoading:false,
       // apiKey: 'AIzaSyAKff7kMhRQeHKIYofqBxeA4YvmV7zv8c8'
-      apiKey: 'AIzaSyDje5RZ3Bi-mBAASuyoVUwkBjvmQ39HEGw'
+      apiKey: 'AIzaSyDje5RZ3Bi-mBAASuyoVUwkBjvmQ39HEGw',
+      pageBlock:false
     }
   },
   created(){
@@ -136,6 +140,8 @@ export default {
       })
       .catch(error => {
         console.error(error)
+        if(error.errors.domain === "youtube.quota")
+          this.pageBlock = true
       })
     },
     deepCopy(data) {
@@ -219,6 +225,8 @@ export default {
         })
         .catch(error => {
           console.error(error)
+          if(error.errors.domain === "youtube.quota")
+            this.pageBlock = true
         })
     },
     timeFormat(timeString){
