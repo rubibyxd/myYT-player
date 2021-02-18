@@ -65,6 +65,7 @@ export default {
           ytUrl:'https://www.youtube.com/watch?v=' + item.id.videoId
         }
       }
+      this.updateVideo()
     },
     updateVideo() {
         this.player.destroy()
