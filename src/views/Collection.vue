@@ -69,10 +69,12 @@ export default {
       }, 1000);
     },
     getCollectData(){
+      let storageData = JSON.parse(localStorage.getItem('myCollectionFolder'))
+      if(storageData.lenght === 0 || !storageData)
+        return
       this.loading = true
       this.totalPage = []
-      let storageData = JSON.parse(localStorage.getItem('myCollectionFolder'))
-      this.allVideoData = storageData
+      this.allVideoData = storageData || []
       const newData = []
       this.allVideoData.forEach((item, i) => {
         const page = parseInt(i / this.perPage)
@@ -85,8 +87,7 @@ export default {
         this.totalPage = JSON.parse(JSON.stringify(newData))
         this.loading = false
         clearTimeout(t)
-      },1000)
-      
+      },1000)      
     },
     setCollectData(data) {
       let newData = JSON.stringify(data)
