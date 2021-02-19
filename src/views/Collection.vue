@@ -4,7 +4,9 @@
       <h1>我的影片收藏夾</h1>
     </div>
     <div v-show="loading" class="loader"></div>
-    <div v-show="delSuccess" class="delSuccessHint"></div>
+    <div v-show="delSuccess" class="del-hint">
+      <h3>已將影片成功移除</h3>
+    </div>
     <div v-if="totalPage" class="video-container">
       <div v-for="(item,index) in totalPage[nowPage]" :key="index" class="single-video">        
         <div class="video-pic">
@@ -60,6 +62,11 @@ export default {
       let newData = this.allVideoData.filter(el => el.id.videoId !== item.id.videoId)
       this.setCollectData(newData)
       this.getCollectData()
+      this.delSuccess = true
+      let t = setTimeout(() => {
+        this.delSuccess = false
+        clearTimeout(t)
+      }, 1000);
     },
     getCollectData(){
       this.loading = true
@@ -86,7 +93,6 @@ export default {
       localStorage.setItem('myCollectionFolder',newData)
     },
     playThis(item) {
-      // console.log(item)
       // 1. 從localStorage裡找到對應item的index
       let storageDataArr = JSON.parse(localStorage.getItem('myCollectionFolder'))
       let itemIndex = storageDataArr.findIndex( el => {
@@ -109,12 +115,8 @@ export default {
     this.getCollectData()
   },
   watch:{
-    totalPage(data){
-      console.log('totalPage',data)
-    },
-    allVideoData(data){
-      console.log('allVideoData',data)
-    }
+    totalPage(){},
+    allVideoData(){}
   }
 }
 </script>
@@ -124,6 +126,22 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      .del-hint{
+        width: 400px;
+        height: 100px;
+        font-size: 24px;
+        font-weight: bold;
+        position: fixed;
+        top: 80px;
+        left: auto;
+        background-color: #242121;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        border-radius: 5px;
+        user-select: none;
+      }
       .loader {
         margin-top: 30px;
         border: 15px solid #242121; 
