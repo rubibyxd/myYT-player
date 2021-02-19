@@ -4,6 +4,7 @@
       <h1>我的影片收藏夾</h1>
     </div>
     <div v-show="loading" class="loader"></div>
+    <div v-show="delSuccess" class="delSuccessHint"></div>
     <div v-if="totalPage" class="video-container">
       <div v-for="(item,index) in totalPage[nowPage]" :key="index" class="single-video">        
         <div class="video-pic">
@@ -49,8 +50,9 @@ export default {
       allVideoData:[],
       nowPage: 0,
       totalPage:[],
-      perPage:4,
-      loading:false
+      perPage:8,
+      loading:false,
+      delSuccess:false
     }
   },
   methods: {

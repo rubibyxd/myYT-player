@@ -15,7 +15,7 @@
     </div>
     <div v-show="apiLoading" class="loader"></div>
     <div v-show="pageBlock">
-      <h2>今日搜尋量已達上限</h2>
+      <h2>{{ errMsg }}</h2>
     </div>
     <div v-show="!apiLoading" class="video-container">
       <div v-show="collectSuccess" class="add-success">
@@ -65,10 +65,11 @@ export default {
       allData: [],
       searchString: '',
       apiLoading:false,
-      // apiKey: 'AIzaSyAKff7kMhRQeHKIYofqBxeA4YvmV7zv8c8'
-      apiKey: 'AIzaSyDje5RZ3Bi-mBAASuyoVUwkBjvmQ39HEGw',
+      apiKey:process.env.VUE_APP_API_KEY,
+      // apiKey:process.env.VUE_APP_API_KEY_BK,
       pageBlock:false,
-      collectSuccess:false
+      collectSuccess:false,
+      errMsg:''
     }
   },
   created(){
@@ -145,8 +146,12 @@ export default {
       })
       .catch(error => {
         console.error(error)
-        if(error.errors.domain === "youtube.quota")
-          this.pageBlock = true
+        if(error.errors.domain.indexOf('youtube.quota') > -1){
+          this.errMsg = '今日搜尋量已達上限'
+        }else{
+          this.errMsg = '發生未預期錯誤'
+        }
+        this.pageBlock = true
       })
     },
     deepCopy(data) {
@@ -230,8 +235,12 @@ export default {
         })
         .catch(error => {
           console.error(error)
-          if(error.errors.domain === "youtube.quota")
-            this.pageBlock = true
+          if(error.errors.domain.indexOf('youtube.quota') > -1){
+            this.errMsg = '今日搜尋量已達上限'
+          }else{
+            this.errMsg = '發生未預期錯誤'
+          }
+          this.pageBlock = true
         })
     },
     timeFormat(timeString){
