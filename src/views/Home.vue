@@ -265,7 +265,7 @@ export default {
       return result
     },
     playNow(item){
-      this.addToCollect(item)
+      this.$store.commit('selectVideo', item)
       this.$router.push('/videoPlayer')
     },
     addToCollect(item){

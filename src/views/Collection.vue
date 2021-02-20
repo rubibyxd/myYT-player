@@ -94,15 +94,7 @@ export default {
       localStorage.setItem('myCollectionFolder',newData)
     },
     playThis(item) {
-      // 1. 從localStorage裡找到對應item的index
-      let storageDataArr = JSON.parse(localStorage.getItem('myCollectionFolder'))
-      let itemIndex = storageDataArr.findIndex( el => {
-          return el.id.videoId === item.id.videoId
-      })
-      // 2. 用 arrMove 將 item 的 index 移到第0個後再將 localStorage 的資料重設
-      let newArr = JSON.stringify(this.arrMove(storageDataArr,itemIndex,0))
-      localStorage.setItem('myCollectionFolder',newArr)
-      // 3. 跳轉到撥放器
+      this.$store.commit('selectVideo', item)
       this.$router.push('/videoPlayer')
     },
     arrMove(arr, fromIndex, toIndex) {

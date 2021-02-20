@@ -49,9 +49,20 @@ export default {
         upload:'',
         ytUrl:''
       },
+      videoDataFromStore:{},
       videoList:[],
       player: null,
       isPlaying:false,
+    }
+  },
+  created() {
+    const videoData = this.$store.state.seletedVideo
+    this.nowVideo = {
+        id:videoData.id.videoId,
+        title:videoData.snippet.title,
+        views:videoData.viewCount,
+        upload:this.dateFormat(videoData.snippet.publishTime),
+        ytUrl:'https://www.youtube.com/watch?v=' + videoData.id.videoId
     }
   },
   methods: {
@@ -64,8 +75,8 @@ export default {
           upload:this.dateFormat(item.snippet.publishTime),
           ytUrl:'https://www.youtube.com/watch?v=' + item.id.videoId
         }
-      }
       this.updateVideo()
+      }
     },
     updateVideo() {
         this.player.destroy()
@@ -94,13 +105,6 @@ export default {
     initVideoData(){
       let getData = JSON.parse(localStorage.getItem('myCollectionFolder'))
       this.videoList = getData
-      this.nowVideo = {
-          id:getData[0].id.videoId,
-          title:getData[0].snippet.title,
-          views:getData[0].viewCount,
-          upload:this.dateFormat(getData[0].snippet.publishTime),
-          ytUrl:'https://www.youtube.com/watch?v=' + getData[0].id.videoId
-      }
     },
     getVideo(){
       const player = document.querySelector('#video-player')
