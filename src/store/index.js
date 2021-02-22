@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    seletedVideo:'demo text'
+    seletedVideo:''
   },
   mutations: {
     selectVideo(state,video) {

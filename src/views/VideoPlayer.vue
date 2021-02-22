@@ -17,7 +17,6 @@
           <span class="upload-time">上傳時間: {{ nowVideo.upload }}</span>
         </div>
         <div class="btn-container">
-          <!-- <div class="next-video">下一部影片</div> -->
           <div class="goto-youtube" @click="openYTpage(nowVideo.ytUrl)">以 youtube 開啟</div>
         </div>
       </main>
@@ -49,7 +48,6 @@ export default {
         upload:'',
         ytUrl:''
       },
-      videoDataFromStore:{},
       videoList:[],
       player: null,
       isPlaying:false,
@@ -236,22 +234,13 @@ export default {
         text-align: center;
         align-self: flex-start;
         margin-top: 30px;
-        .next-video,.goto-youtube {
+        .goto-youtube {
           width: 300px;
           padding: 10px 0;
           border-radius: 5px;
           font-weight: bold;
           user-select: none;
           cursor: pointer;
-        }
-        .next-video {
-          border: 1px solid #FF4299;
-          color:  #FF4299;
-          margin-right: 30px;
-          &:hover {
-            background-color: #FF4299;
-            color: #141010;
-          }
         }
         .goto-youtube{
           background-color: #b32f2f;
